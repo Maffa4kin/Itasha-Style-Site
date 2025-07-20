@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itasha Dream - Anime Car Gallery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background-color: #0f0f1a;
+            color: #e0e0ff;
+        }
+        
+        .anime-gradient {
+            background: linear-gradient(45deg, #ff3366, #6e3bff, #33ccff);
+            background-size: 300% 300%;
+            animation: gradient 8s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(236, 72, 153, 0.3), 0 10px 10px -5px rgba(236, 72, 153, 0.1);
+        }
+        
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-content {
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .modal.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .sakura {
+            position: absolute;
+            background-color: #ffb7c5;
+            border-radius: 50% 0 50% 50%;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Background Music -->
+    <audio id="bgMusic" loop autoplay muted>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+    <button id="musicToggle" class="fixed bottom-4 right-4 bg-pink-600 text-white rounded-full w-12 h-12 flex items-center justify-center z-50">
+        <i class="fas fa-volume-mute"></i>
+    </button>
+
+    <!-- Sakura Petals Animation -->
+    <div id="sakura-container"></div>
+    
+    <!-- Header -->
+    <header class="anime-gradient py-6 shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center mb-4 md:mb-0">
+                    <i class="fas fa-car-side text-3xl text-white mr-3"></i>
+                    <h1 class="text-3xl font-bold text-white">ITASHA DREAM</h1>
+                </div>
+                <nav class="flex space-x-6">
+                    <a href="#" class="text-white hover:text-pink-200 transition">Gallery</a>
+                    <a href="#" class="text-white hover:text-pink-200 transition">Events</a>
+                    <a href="#" class="text-white hover:text-pink-200 transition">Artists</a>
+                    <a href="#" class="text-white hover:text-pink-200 transition">About</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden">
+        <div class="anime-gradient h-96 flex items-center justify-center">
+            <div class="text-center px-4">
+                <h2 class="text-5xl md:text-6xl font-bold text-white mb-4">ANIME MEETS AUTOMOTIVE</h2>
+                <p class="text-xl text-white opacity-90 max-w-2xl mx-auto">Discover the most stunning Itasha cars from around the world</p>
+                <button class="mt-8 bg-white text-pink-600 font-bold py-3 px-8 rounded-full hover:bg-pink-100 transition duration-300">
+                    EXPLORE GALLERY
+                </button>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black to-transparent"></div>
+    </section>
+    
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-12">
+        <!-- Featured Cars -->
+        <section class="mb-16">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-pink-400">Featured Itasha</h2>
+                <div class="flex space-x-2">
+                    <button class="filter-btn active bg-pink-600 text-white px-4 py-2 rounded-full" data-filter="all">All</button>
+                    <button class="filter-btn bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-full" data-filter="jdm">JDM</button>
+                    <button class="filter-btn bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-full" data-filter="european">European</button>
+                    <button class="filter-btn bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-full" data-filter="american">American</button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Car Card 1 -->
+                <div class="car-card bg-gray-800 rounded-xl overflow-hidden transition duration-300 cursor-pointer" data-category="jdm" onclick="openModal('img1')">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://i.pinimg.com/564x/7b/3a/1b/7b3a1b7c1c0d4c0e8b3d3c8e3d3c8e3d.jpg" alt="Pink Itasha Nissan GT-R" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-4">
+                            <h3 class="text-xl font-bold text-white">Nissan GT-R</h3>
+                            <p class="text-pink-300">Hatsune Miku Theme</p>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-pink-400 font-bold">Tokyo, Japan</span>
+                            <div class="flex space-x-2">
+                                <span class="bg-pink-600 text-white text-xs px-2 py-1 rounded">JDM</span>
+                                <span class="bg-blue-600 text-white text-xs px-2 py-1 rounded">Anime</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car Card 2 -->
+                <div class="car-card bg-gray-800 rounded-xl overflow-hidden transition duration-300 cursor-pointer" data-category="jdm" onclick="openModal('img2')">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://i.pinimg.com/564x/8b/3a/1b/8b3a1b7c1c0d4c0e8b3d3c8e3d3c8e3d.jpg" alt="Blue Itasha Subaru WRX" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-4">
+                            <h3 class="text-xl font-bold text-white">Subaru WRX STI</h3>
+                            <p class="text-blue-300">Neon Genesis Evangelion</p>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-blue-400 font-bold">Osaka, Japan</span>
+                            <div class="flex space-x-2">
+                                <span class="bg-pink-600 text-white text-xs px-2 py-1 rounded">JDM</span>
+                                <span class="bg-purple-600 text-white text-xs px-2 py-1 rounded">Classic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car Card 3 -->
+                <div class="car-card bg-gray-800 rounded-xl overflow-hidden transition duration-300 cursor-pointer" data-category="european" onclick="openModal('img3')">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://i.pinimg.com/564x/9b/3a/1b/9b3a1b7c1c0d4c0e8b3d3c8e3d3c8e3d.jpg" alt="Red Itasha Lamborghini" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-4">
+                            <h3 class="text-xl font-bold text-white">Lamborghini Huracan</h3>
+                            <p class="text-red-300">Fate/Grand Order</p>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-red-400 font-bold">Milan, Italy</span>
+                            <div class="flex space-x-2">
+                                <span class="bg-yellow-600 text-white text-xs px-2 py-1 rounded">European</span>
+                                <span class="bg-green-600 text-white text-xs px-2 py-1 rounded">Modern</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car Card 4 -->
+                <div class="car-card bg-gray-800 rounded-xl overflow-hidden transition duration-300 cursor-pointer" data-category="american" onclick="openModal('img4')">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://i.pinimg.com/564x/10/3a/1b/103a1b7c1c0d4c0e8b3d3c8e3d3c8e3d.jpg" alt="Purple Itasha Mustang" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-4">
+                            <h3 class="text-xl font-bold text-white">Ford Mustang GT</h3>
+                            <p class="text-purple-300">Vocaloid Theme</p>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-purple-400 font-bold">Los Angeles, USA</span>
+                            <div class="flex space-x-2">
+                                <span class="bg-red-600 text-white text-xs px-2 py-1 rounded">American</span>
+                                <span class="bg-indigo-600 text-white text-xs px-2 py-1 rounded">Muscle</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car Card 5 -->
+                <div class="car-card bg-gray-800 rounded-xl overflow-hidden transition duration-300 cursor-pointer" data-category="jdm" onclick="openModal('img5')">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://i.pinimg.com/564x/11/3a/1b/113a1b7c1c0d4c0e8b3d3c8e3d3c8e3d.jpg" alt="Green Itasha RX-7" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-4">
+                            <h3 class="text-xl font-bold text-white">Mazda RX-7 FD</h3>
+                            <p class="text-green-300">Initial D x Touhou</p>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-green-400 font-bold">Kyoto, Japan</span>
+                            <div class="flex space-x-2">
+                                <span class="bg-pink-600 text-white text-xs px-2 py-1 rounded">JDM</span>
+                                <span class="bg-gray-600 text-white text-xs px-2 py-1 rounded">90s</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Car Card 6 -->
+                <div class="car-card bg-gray-800 rounded-xl overflow-hidden transition duration-300 cursor-pointer" data-category="european" onclick="openModal('img6')">
+                    <div class="relative overflow-hidden h-64">
+                        <img src="https://i.pinimg.com/564x/12/3a/1b/123a1b7c1c0d4c0e8b3d3c8e3d3c8e3d.jpg" alt="White Itasha Porsche" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 p-4">
+                            <h3 class="text-xl font-bold text-white">Porsche 911 GT3</h3>
+                            <p class="text-white">Sword Art Online</p>
+                        </div>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-400 font-bold">Stuttgart, Germany</span>
+                            <div class="flex space-x-2">
+                                <span class="bg-yellow-600 text-white text-xs px-2 py-1 rounded">European</span>
+                                <span class="bg-teal-600 text-white text-xs px-2 py-1 rounded">Track</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-8 rounded-full transition duration-300">
+                    LOAD MORE
+                </button>
+            </div>
+        </section>
+        
+        <!-- About Itasha -->
+        <section class="bg-gray-800 rounded-xl p-8 mb-16">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0 md:pr-8">
+                    <h2 class="text-3xl font-bold text-pink-400 mb-4">What is Itasha?</h2>
+                    <p class="text-gray-300 mb-4">
+                        Itasha (痛車), literally "painful car", refers to vehicles decorated with anime, manga, or video game characters. 
+                        This unique Japanese subculture combines automotive enthusiasm with otaku culture, creating mobile works of art.
+                    </p>
+                    <p class="text-gray-300 mb-4">
+                        The designs often feature vibrant colors, intricate illustrations, and sometimes even 3D elements that make the cars 
+                        stand out in any setting.
+                    </p>
+                    <button class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-2 px-6 rounded-full transition duration-300">
+                        LEARN MORE
+                    </button>
+                </div>
+                <div class="md:w-1/2">
+                    <div class="relative overflow-hidden rounded-lg h-64 md:h-80">
+                        <img src="https://i.pinimg.com/564x/13/3a/1b/133a1b7c1c0d4c0e8b3d3c8e3d3c8e3d.jpg" alt="Itasha car closeup" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent to-gray-800 opacity-70"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Events Section -->
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-pink-400 mb-8 text-center">Upcoming Itasha Events</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Event 1 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden">
+                    <div class="relative h-48">
+                        <img src="https://i.pinimg.com/564x/14/3a/1b/143a1b7c1c0d4c0e8b3d3c8e3d3c8e3d.jpg" alt="Itasha meet" class="w-full h-full object-cover">
+                        <div class="absolute top-0 right-0 bg-pink-600 text-white px-3 py-1 rounded-bl-lg">
+                            <span class="font-bold">JUN</span> 15
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">Tokyo Itasha Festival</h3>
+                        <p class="text-gray-400 mb-4">The biggest gathering of Itasha cars in Japan with over 300 vehicles expected.</p>
+                        <div class="flex items-center text-pink-400">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span>Tokyo Big Sight, Japan</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 2 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden">
+                    <div class="relative h-48">
+                        <img src="https://i.pinimg.com/564x/15/3a/1b/153a1b7c1c0d4c0e8b3d3c8e3d3c8e3d.jpg" alt="Itasha meet" class="w-full h-full object-cover">
+                        <div class="absolute top-0 right-0 bg-blue-600 text-white px-3 py-1 rounded-bl-lg">
+                            <span class="font-bold">AUG</span> 22
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">Anime Expo Itasha Showcase</h3>
+                        <p class="text-gray-400 mb-4">Special Itasha display at North America's largest anime convention.</p>
+                        <div class="flex items-center text-blue-400">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span>Los Angeles, USA</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event 3 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden">
+                    <div class="relative h-48">
+                        <img src="https://i.pinimg.com/564x/16/3a/1b/163a1b7c1c0d4c0e8b3d3c8e3d3c8e3d.jpg" alt="Itasha meet" class="w-full h-full object-cover">
+                        <div class="absolute top-0 right-0 bg-purple-600 text-white px-3 py-1 rounded-bl-lg">
+                            <span class="font-bold">OCT</span> 05
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-white mb-2">Euro Itasha Gathering</h3>
+                        <p class="text-gray-400 mb-4">First major European Itasha meetup with participants from 12 countries.</p>
+                        <div class="flex items-center text-purple-400">
+                            <i class="fas fa-map-marker-alt mr-2"></i>
+                            <span>Nürburgring, Germany</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Newsletter -->
+    <section class="anime-gradient py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-white mb-4">Join Our Itasha Community</h2>
+            <p class="text-white opacity-90 mb-8 max-w-2xl mx-auto">Subscribe to get updates on the most stunning Itasha builds, events near you, and exclusive content.</p>
+            
+            <div class="flex flex-col md:flex-row justify-center max-w-xl mx-auto">
+                <input type="email" placeholder="Your
